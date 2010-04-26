@@ -1,0 +1,10 @@
+= Overview =
+An Open Source DHCPv6 Server implemented in Java.
+Jagornet DHCPv6 Server Community Edition supports the Dynamic Host Configuration Protocol for IPv6 (DHCPv6) as defined by [http://www.ietf.org/rfc/rfc3315.txt RFC 3315].
+
+=== Features ===
+  * Highly-scalable, multithreaded architecture
+  * Dynamic DNS
+  * Prefix Delegation
+  * Flexible, XML configuration file format
+  * Java Management Extensions (JMX) support
