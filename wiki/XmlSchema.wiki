@@ -1,0 +1,8 @@
+= XML Schema =
+
+The Jagornet DHCPv6 sever is configured via an XML file.  The XML file is defined by an XML schema, which is available here [http://jagornet-dhcpv6.googlecode.com/files/dhcpv6server-1.0.xsd].
+
+
+== Internet-Draft ==
+
+The Jagornet DHCPv6 Server configuration XML schema has been submitted to the Internet Engineering Task Force (IETF) as an Internet-Draft.  Please see the following link for the I-D submission [http://www.ietf.org/internet-drafts/draft-rabil-dhc-dhcpv6-xmlconfig-00.txt].
