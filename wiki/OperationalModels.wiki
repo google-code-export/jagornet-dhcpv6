@@ -1,0 +1,27 @@
+= DHCPv6 Operational Models =
+IPv6 capable hosts are notified via router advertisement (RA) flags when and how to use DHCPv6.  These flags are defined in RFC 4861 as follows:
+  # Managed address configuration flag (M bit) - when set, it indicates that addresses are available via Dynamic Host Configuration Protocol [DHCPv6].  If the M flag is set, the O flag is redundant and can be ignored because DHCPv6 will return all available configuration information.
+  # Other configuration flag (O bit) - when set, it indicates that other configuration information is available via DHCPv6. Examples of such information are DNS-related information or information on other servers within the network.
+
+The operation of the host with respect to these flags can be summarized as follows:
+
+|| *Flag* || *M=1* || *M=0* ||
+|| *O=1* || DHCPv6 for address and configuration information || DHCPv6 for configuration information only ||
+|| *O=0* || DHCPv6 for address and configuration information || No DHCPv6 ||
+
+A host which is configured to use DHCPv6 as described above will send Solicit messages for address assignment and configuration requests or Information-Request messages for configuration-only requests to the All_DHCP_Relay_Agents_and_Servers(FF02::1:2) link-scoped multicast IPv6 address. The request message is handled either by a DHCPv6 server on the local link, or forwarded by a DHCPv6 relay agent to a DHCPv6 server on a separate network link. A DHCPv6 relay agent is available in most routers and layer 3 switches which support IPv6.
+
+== Operational Model 1 - Unicast DHCPv6 Server traffic ==
+=== Client and Server separated by a DHCPv6 Relay ===
+
+|| *DHCPv6 Client* || || *DHCPv6 Relay* || || *DHCPv6 Server* ||
+|| (1) Send Multicast Request || >>> || (2) Receive Multicast Request<br>(3) Send Unicast Relay-Forward || >>> || (4) Receive Unicast Relay-Forward ||
+|| (8) Receive Unicast Reply || <<< || (6) Receive Unicast Relay-Reply<br>(7) Send Unicast Reply || <<< || (5) Send Unicast Relay-Reply ||
+
+
+== Operational Model 2 - Multicast DHCPv6 Server traffic ==
+=== Client and Server on the same link ===
+
+|| *DHCPv6 Client* || || *DHCPv6 Server* ||
+|| (1) Send Multicast Request || >>> || (2) Receive Multicast Request ||
+|| (4) Receive Unicast Reply || <<< || (3) Send Unicast Reply ||
