@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DHCPv6" default="dist" basedir=".">
+    <description>
+        Ant build file for DHCPv6 Server
+    </description>
+	
+  	<!-- set global properties for this build -->
+  	<property name="src" location="src"/>
+	<property name="docs" location="docs"/>
+  	<property name="javadoc" location="docs/javadoc"/>
+  	<property name="build" location="build"/>
+  	<property name="classes" location="build/classes"/>
+  	<property name="dist" location="dist"/>
+  	<property name="conf" location="conf"/>
+  	<property name="bin" location="bin"/>
+	<property name="db" location="db"/>
+	<property name="yajsw" location="bin/yajsw-beta-10.2"/>
+  	<property file="build.properties"/>
+	
+	<echoproperties/>
+  
+  	<!-- define the xbean task -->
+  	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${xmlbeans.jar}:${jsr173.api.jar}"/>
+	
+  	<target name="init">
+    	<!-- Create the time stamp -->
+    	<tstamp/>
+    	<!-- Create the build directory structure used by compile -->
+    	<mkdir dir="${build}"/>
+  		<mkdir dir="${classes}"/>
+  	</target>
+
+  	<target name="schema" depends="init"
+  		description="compile the schema">
+  		<!-- we set the schema attribute to the 'conf' directory, which will
+  		 cause the XMLBeans schema compiler to compile any .xsd files in
+  		 that directory, also including the .xsdconfig file -->
+    	<xmlbean javasource="1.5" schema="${conf}" destfile="${lib}/xmltypes.jar">
+    		<classpath>
+        		<filelist files="${xmlbeans.jars}"/>
+	    	</classpath>
+	    </xmlbean>
+  	</target>		   
+
+  	<target name="compile" depends="init,schema"
+        description="compile the source">
+    	<!-- Compile the java code from ${src} into ${classes} -->
+	    <javac srcdir="${src}" destdir="${classes}" target="1.6" debug="true">
+	    	<classpath>
+	        	<filelist files="${dependent.jars}"/>
+	    		<filelist files="${lib}/xmltypes.jar"/>
+	    	</classpath>
+	    </javac>
+  		<!-- Copy the context.xml file to classes so it gets put into the jar -->
+  		<copy todir="${classes}">
+  			<fileset dir="${src}" includes="**/context.xml"/>
+  		</copy>
+  	</target>
+	
+	<target name="jar" depends="compile"
+		description="build the dhcpv6.jar">
+		
+	  	<!-- Build the dhcpv6-x.y.z.jar file from the class files, but no properties -->
+	    <jar jarfile="${build}/${product}.jar" basedir="${classes}" excludes="*.properties">
+	    	<!-- Add the manifest inline to the jar when it is created -->
+			<manifest>
+		        <attribute name="Main-Class" value="com.jagornet.dhcpv6.Version"/>
+		    	<attribute name="Specification-Title" value="${title}"/>
+				<attribute name="Specification-Version" value="${version}"/>
+				<attribute name="Specification-Vendor" value="${vendor}"/>
+				<attribute name="Implementation-Title" value="${title}"/>
+				<attribute name="Implementation-Version" value="${version}"/> 
+				<attribute name="Implementation-Vendor" value="${vendor}"/>
+			</manifest>
+		</jar>	    	
+	</target>		
+	
+  	<target name="javadoc" depends="init">
+  		<!-- just rebuild the JavaDoc each time -->
+	    <delete dir="${javadoc}"/>
+	  	<javadoc sourcepath="${src}" destdir="${javadoc}">
+	  	</javadoc>
+  	</target>
+
+  	<target name="dist" depends="jar"
+        description="generate the distribution" >
+
+	  	<mkdir dir="${dist}"/>
+	  	<mkdir dir="${dist}/lib"/>
+	    
+	    <!-- Copy all the dependent jars into the distribution library folder -->
+	    <copy todir="${dist}/lib" flatten="true">
+	    	<filelist dir="${build}" files="${product}.jar"/>
+	    	<filelist dir="${lib}" files="xmltypes.jar"/>
+	    	<filelist files="${dependent.jars}"/>
+	    </copy>
+	    
+  		<mkdir dir="${dist}/docs"/>
+  		<copy todir="${dist}/docs">
+  			<fileset dir="${docs}" includes="*.txt,*.html"/>
+  		</copy>
+  			
+	    <mkdir dir="${dist}/conf"/>    
+	    <copy todir="${dist}/conf">
+	    	<fileset dir="${conf}" includes="*.xml,*.xsd,*.conf,*.properties"/>
+	    </copy>
+	
+	    <mkdir dir="${dist}/bin"/>    
+	    <copy todir="${dist}/bin">
+	    	<fileset dir="${bin}"/>
+	    </copy>
+  		
+  		<mkdir dir="${dist}/bin/yajsw-beta-10.2"/>
+  		<copy todir="${dist}/bin/yajsw-beta-10.2">
+  			<fileset dir="${yajsw}"/>
+  		</copy>
+  		
+	    <mkdir dir="${dist}/db"/>    
+	    <copy todir="${dist}/db">
+	    	<fileset dir="${db}"/>
+	    </copy>
+	    
+	    <mkdir dir="${dist}/log"/>
+	
+		<tar destfile="${dist}/${product}.tar">
+		  	<tarfileset dir="${dist}" prefix="${product}" mode="755">
+			    <include name="bin/dhcpv6"/>
+		  	</tarfileset>
+		  	<tarfileset dir="${dist}" prefix="${product}">
+			    <include name="**/*"/>
+			    <exclude name="bin/**/*"/>
+			    <exclude name="*.tar"/>
+			    <exclude name="*.gz"/>
+			    <exclude name="*.zip"/>
+		  	</tarfileset>
+		</tar>
+		
+		<gzip destfile="${dist}/${product}.tar.gz" src="${dist}/${product}.tar"/>
+	
+		<zip destfile="${dist}/${product}.zip">
+			<zipfileset dir="${dist}" prefix="${product}">
+			    <include name="**/*"/>
+				<exclude name="bin/dhcpv6"/>
+				<exclude name="*.tar"/>
+			    <exclude name="*.gz"/>
+			    <exclude name="*.zip"/>
+			</zipfileset>
+		</zip>	
+  	</target>
+
+	<target name="clean"
+		description="clean up" >
+    	<!-- Delete the ${build} and ${dist} directory trees -->
+    	<delete dir="${build}"/>
+    	<delete dir="${dist}"/>
+  	</target>
+	
+</project>
