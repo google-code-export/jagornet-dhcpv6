@@ -4,6 +4,6 @@ The Jagornet DHCPv6 Server is implemented in Java, and requires an operating env
 
   * Linux 2.6 - Sun JRE 6
   * Solaris 10 - Sun JRE 6
-  * Windows XP - Sun JRE 6
+  * Windows XP SP2 - Sun JRE 6
   * Windows 7 - Sun JRE 6
   * MacOSX 10.5 - Apple JRE 6
