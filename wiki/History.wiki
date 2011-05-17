@@ -1,0 +1,22 @@
+#History of Jagornet DHCPv6
+
+= Introduction =
+
+This page describes the history behind the Jagornet DHCPv6 Server.
+
+
+= History =
+
+In 1997, I began working for Quadritek (later acquired by Lucent), where I was responsible for developing the "world's fastest" DHCPv4 server - QDHCP.  It was multithreaded, supported multiple NICs, and ran on multiple platforms - Windows, Solaris, Linux, AIX, HP-UX.  You can imagine the difficulties in maintaining that support for a server implemented in C/C++.
+
+In 2002, Java 1.4 was introduced, including IPv6 and "new" IO support.  These features made it possible to consider Java as a viable language for cross-platform development of a low-level protocol server such as DHCP.
+
+In late 2002, I began working on a prototype of a stateless DHCPv6 server in Java.  It started as a simple proof-of-concept that I played with every so often, like in the cold winter months of Philly.  Over the course of a couple years, I toyed with various home-grown server frameworks.  As soon as I had a working prototype using one of my frameworks, I would decide I did not like it, and start with a new design - typical engineer!
+
+From mid 2004 through 2005, development of the prototype was halted while I was busy attending to my dear, sweet, wonderful, beautiful, late wife, who was diagnosed with a brain tumor, yet lived a full and gracious life until her death on Christmas Eve, 2005.  May she rest in peace.
+
+In late 2006, Java 6 was released, with a host of improvements, including virtually native performance levels.  Finally, Java was completely on par with C/C++ with respect to performance.  If the low-level development issues could be solved, then something more than just a prototype was really feasible.
+
+In mid 2007, development of the DHCPv6 server began again in earnest.  Well, not really, there was still much grieving... but I digress.  In any event, I threw out all of my home-grown server architectures in favor of Apache MINA (originally developed by Trustin Lee).  The framework was much better than my lame attempts, so I refactored all of my DHCPv6 protocol handling code to work with MINA.
+
+In early 2008, the first, legitimate prototype successfully passed all stateless server interoperability tests at an event held at Comcast HQ in Philadelphia with the majority of commercial and open source DHCPv6 client and server vendors.
