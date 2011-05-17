@@ -27,6 +27,6 @@ In April 2009, the source code of the Jagornet DHCPv6 Server Community edition w
 
 From 2009 through early 2010, stateful DHCPv6 server behavior was added, including support for DDNS updates.  In addition, the MINA-based implementation was scrapped in favor of JBoss Netty (what Trustin Lee created after leaving MINA).
 
-In April 2010, Jagornet 1.0 DHCPv6 Server beta was released.  The remainder of the year was spent working towards IPv6 Ready certification, which involves passing the TAHI DHCPv6 tests for conformance as well as performing and verifying an extensive suite of interoperability tests.
+In April 2010, Jagornet 1.0 DHCPv6 Server beta was released.  The remainder of the year was spent working towards IPv6 Ready certification, which involved passing the TAHI DHCPv6 tests for conformance as well as performing and verifying an extensive suite of interoperability tests.
 
 In March 2011, Jagornet 1.0 DHCPv6 Server passes IPv6 Phase II Ready Certification for DHCPv6 server, and is released for general availability on Google Code.
