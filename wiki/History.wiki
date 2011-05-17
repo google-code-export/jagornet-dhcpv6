@@ -1,9 +1,4 @@
-= Introduction =
-
-This page describes the history behind the Jagornet DHCPv6 Server.
-
-
-= History =
+= History of Jagornet DHCPv6 =
 
 In 1997, I began working for Quadritek (later acquired by Lucent), where I was responsible for developing the "world's fastest" DHCPv4 server - QDHCP.  It was multithreaded, supported multiple NICs, and ran on multiple platforms - Windows, Solaris, Linux, AIX, HP-UX.  You can imagine the difficulties in maintaining that support for a server implemented in C/C++.
 
