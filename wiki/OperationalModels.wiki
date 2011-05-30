@@ -15,7 +15,7 @@ A host which is configured to use DHCPv6 as described above will send Solicit me
 === Client and Server separated by a DHCPv6 Relay ===
 
 || *DHCPv6 Client* || || *DHCPv6 Relay* || || *DHCPv6 Server* ||
-|| (1) Send Multicast Request || >>> || (2) Receive Multicast Request<br>(3) Send Unicast Relay-Forward || >>> || (4) Receive Unicast Relay-Forward ||
+|| (1) Send Multicast Request || >>> || (2) Receive Multicast Request<br>(3) Send Unicast/Multicast Relay-Forward || >>> || (4) Receive Unicast/Multicast Relay-Forward ||
 || (8) Receive Unicast Reply || <<< || (6) Receive Unicast Relay-Reply<br>(7) Send Unicast Reply || <<< || (5) Send Unicast Relay-Reply ||
 
 
