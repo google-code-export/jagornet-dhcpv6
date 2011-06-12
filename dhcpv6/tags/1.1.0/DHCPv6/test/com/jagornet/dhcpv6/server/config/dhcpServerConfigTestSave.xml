@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dhc:dhcpV6ServerConfig xmlns:dhc="http://ietf.org/dhc/dhcpv6">
+    <serverIdOption>
+        <opaqueData>
+            <hexValue>000100014CB1DD84005056C00008</hexValue>
+        </opaqueData>
+    </serverIdOption>
+    <policies>
+        <policy>
+            <name>sendRequestedOptionsOnly</name>
+            <value>true</value>
+        </policy>
+    </policies>
+</dhc:dhcpV6ServerConfig>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dhc:dhcpV6ServerConfig xmlns:dhc="http://ietf.org/dhc/dhcpv6">
+
+	<serverIdOption>
+		<!-- ServerID is auto-generated -->
+		<opaqueData>
+			<hexValue>abcdef0123456789</hexValue>
+		</opaqueData>
+	</serverIdOption>
+	
+	<policies>
+		<!-- Global server level policies -->
+		<policy>
+			<name>sendRequestedOptionsOnly</name>
+			<value>false</value>
+		</policy>
+	</policies>
+
+	<msgConfigOptions>
+		<!-- Global server level options to be put at the message level
+			 for reply messages sent to clients -->
+		<dnsServersOption>
+			<ipAddress>2001:DB8::1</ipAddress>
+			<ipAddress>2001:DB8::2</ipAddress>
+			<ipAddress>2001:DB8::3</ipAddress>
+		</dnsServersOption>
+		<domainSearchListOption>
+			<domainName>foo.com.</domainName>
+			<domainName>bar.com.</domainName>
+			<domainName>yuk.com.</domainName>
+		</domainSearchListOption>
+	</msgConfigOptions>
+
+	<filters>
+	  <!-- Global server level filters applied to all clients that match -->
+	  <filter>
+		<name>UserClass Filter Group 1</name>
+		<filterExpressions>
+			<filterExpression>
+				<optionExpression code="15" operator="equals">
+					<opaqueDataOption>
+						<opaqueData>
+							<asciiValue>FilterUserClass</asciiValue>
+						</opaqueData>
+					</opaqueDataOption>
+				</optionExpression>
+			</filterExpression>
+		</filterExpressions>
+		<msgConfigOptions>
+			<!-- Clients that match the filter will receive this DomainListOption
+				 instead of the one defined globally -->
+			<domainSearchListOption>
+				<domainName>filter.com.</domainName>
+			</domainSearchListOption>
+		</msgConfigOptions>
+	  </filter>
+	</filters>
+	
+	<links>
+		<!-- Must define at least one link for client requests -->
+		<link>
+			<name>Local Client Link (Multicast traffic)</name>
+			<interface>eth0</interface>
+			<policies>
+				<!--  10 minute lease times for testing -->
+				<policy>
+					<name>preferredLifetime</name>
+					<value>600</value>
+				</policy>
+				<policy>
+					<name>validLifetime</name>
+					<value>600</value>
+				</policy>
+				<policy>
+					<name>ddns.update</name>
+					<value>server</value>
+				</policy>
+				<policy>
+					<name>ddns.domain</name>
+					<value>ddns.test.com.</value>
+				</policy>
+				<policy>
+					<name>ddns.server</name>
+					<value>192.168.0.1</value>
+				</policy>
+				<policy>
+					<name>ddns.tsig.keyName</name>
+					<value>dhcpv6server-ddnsserver.</value>
+				</policy>
+				<policy>
+					<name>ddns.tsig.algorithm</name>
+					<value>hmac-sha256.</value>
+				</policy>
+				<policy>
+					<name>ddns.tsig.keyData</name>
+					<value>yourKeyDataHere</value>
+				</policy>
+				<policy>
+					<name>ddns.reverse.zone.bitLength</name>
+					<value>48</value>
+				</policy>
+			</policies>
+			<iaNaConfigOptions>
+				<dnsServersOption>
+					<ipAddress>2001:DB8:1::1</ipAddress>
+				</dnsServersOption>
+			</iaNaConfigOptions>
+			<naAddrPools>
+				<!-- Clients that don't support Rapid Commit requesting non-temporary
+					addresses, will get an address from this pool with the
+					address level options provided -->
+				<pool>
+					<range>2001:DB8:1::0A-2001:DB8:1::FF</range>
+					<addrConfigOptions>
+						<sipServerAddressesOption>
+							<ipAddress>2001:DB8:1::1:1</ipAddress>
+						</sipServerAddressesOption>
+					</addrConfigOptions>
+				</pool>
+			</naAddrPools>
+			<linkFilters>
+			  	<linkFilter>
+					<name>Support Rapid Commit</name>
+					<filterExpressions>
+						<filterExpression>
+							<optionExpression code="14">
+								<nilOption/>
+							</optionExpression>
+						</filterExpression>
+					</filterExpressions>
+					<naAddrPools>
+						<!-- Clients that support Rapid Commit requesting non-temporary
+							addresses, will get an address from this pool with the
+							address level options provided -->
+						<pool>
+							<range>2001:DB8:1::10A-2001:DB8:1::1FF</range>
+							<addrConfigOptions>
+								<sipServerAddressesOption>
+									<ipAddress>2001:DB8:1::1:101</ipAddress>
+								</sipServerAddressesOption>
+							</addrConfigOptions>
+						</pool>
+					</naAddrPools>
+			  	</linkFilter>
+			</linkFilters>
+		</link>
+		<link>
+			<name>Remote Client Link (Unicast/Multicast traffic)</name>
+			<address>2001:DB8:2::/48</address>
+			<iaNaConfigOptions>
+				<dnsServersOption>
+					<ipAddress>2001:DB8:2::1</ipAddress>
+				</dnsServersOption>
+			</iaNaConfigOptions>
+			<naAddrPools>
+				<pool>
+					<range>2001:DB8:2::0A-2001:DB8:2::FF</range>
+					<addrConfigOptions>
+						<sipServerAddressesOption>
+							<ipAddress>2001:DB8:2::1:1</ipAddress>
+						</sipServerAddressesOption>
+					</addrConfigOptions>
+				</pool>
+			</naAddrPools>
+		</link>
+	</links>
+
+</dhc:dhcpV6ServerConfig>
