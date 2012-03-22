@@ -1,3 +1,0 @@
-= Client Modes of Operation =
-
-http://technet.microsoft.com/en-us/magazine/cc162485.aspx
